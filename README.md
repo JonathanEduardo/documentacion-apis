@@ -12,9 +12,21 @@
     "description": "Operación exitosa."
   },
   "result": {
-    "id": 1,
-    "name": "John Doe",
-    "email": "john@example.com"
+    "items": [
+      { "id": 1, "name": "Running Shoes", "price": 120.5 },
+      { "id": 2, "name": "Tennis Classic", "price": 89.9 }
+    ],
+    "pagination": {
+      "total": 42,
+      "count": 2,
+      "per_page": 5,
+      "current_page": 2,
+      "total_pages": 9,
+      "links": {
+        "previous": "/api/v1/catalogue/shoes?page=1",
+        "next": "/api/v1/catalogue/shoes?page=3"
+      }
+    }
   }
 }
 ```
