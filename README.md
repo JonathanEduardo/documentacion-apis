@@ -252,13 +252,18 @@ Esto facilita el manejo de errores en el cliente y mejora la depuración.
 ### ✅ **200 – OK (Éxito genérico)**
 ```json
 {
-  "result": true,
-  "message": "Listado de zapatos obtenido correctamente.",
+  "success": true,
+  "status": {
+    "code": 200,
+    "message": "OK",
+    "description": "Éxito genérico"
+  },
   "data": [
     { "id": 1, "name": "Nike Air", "price": 120 },
     { "id": 2, "name": "Adidas Run", "price": 95 }
   ]
 }
+
 ```
 
 ---
@@ -266,14 +271,19 @@ Esto facilita el manejo de errores en el cliente y mejora la depuración.
 ### 🎉 **201 – Created (Recurso creado exitosamente)**
 ```json
 {
-  "result": true,
-  "message": "Orden creada correctamente.",
+  "success": true,
+  "status": {
+    "code": 201,
+    "message": "Created",
+    "description": "Orden creada correctamente."
+  },
   "data": {
-    "order_id": 1023,
-    "total": 215.50,
-    "status": "pending"
+    "id": 35,
+    "name": "Puma Classic",
+    "price": 89.99
   }
 }
+
 ```
 
 ---
@@ -290,13 +300,17 @@ HTTP/1.1 204 No Content
 ### ⚠️ **400 – Bad Request (Error de formato o parámetros)**
 ```json
 {
-  "result": false,
-  "message": "Parámetros inválidos en la solicitud.",
+  "success": false,
+  "status": {
+    "code": 400,
+    "message": "Bad Request",
+    "description": "Error de formato o parámetros"
+  },
   "errors": {
-    "limit": ["Debe ser un número entero positivo."],
-    "page": ["El valor no puede ser menor que 1."]
+    "name": ["El campo 'name' es obligatorio."]
   }
 }
+
 ```
 
 ---
@@ -304,9 +318,15 @@ HTTP/1.1 204 No Content
 ### 🔒 **401 – Unauthorized (No autenticado)**
 ```json
 {
-  "result": false,
+  "success": false,
+  "status": {
+    "code": 401,
+    "message": "Unauthorized",
+    "description": "No autenticado"
+  },
   "message": "Token de autenticación inválido o expirado."
 }
+
 ```
 
 ---
@@ -314,13 +334,15 @@ HTTP/1.1 204 No Content
 ### 🚫 **403 – Forbidden (Sin permisos)**
 ```json
 {
-  "result": false,
-  "message": "No tienes permisos para acceder a este recurso.",
-  "data": {
-    "required_role": "ADMIN",
-    "user_role": "USER"
-  }
+  "success": false,
+  "status": {
+    "code": 403,
+    "message": "Forbidden",
+    "description": "No tiene permisos para acceder a este recurso."
+  },
+  "message": "No tienes permisos para acceder a este recurso."
 }
+
 ```
 
 ---
@@ -338,12 +360,15 @@ HTTP/1.1 204 No Content
 ### ⚔️ **409 – Conflict (Conflicto de estado o duplicado)**
 ```json
 {
-  "result": false,
-  "message": "Ya existe un usuario registrado con este correo electrónico.",
-  "errors": {
-    "email": ["El correo 'test@example.com' ya está en uso."]
-  }
+  "success": false,
+  "status": {
+    "code": 409,
+    "message": "Conflict",
+    "description": "El recurso ya existe o hay un conflicto con los datos enviados."
+  },
+  "message": "El recurso ya existe o hay un conflicto con los datos enviados."
 }
+
 ```
 
 ---
@@ -351,12 +376,17 @@ HTTP/1.1 204 No Content
 ### 🚧 **422 – Unprocessable Entity (Error de validación)**
 ```json
 {
-  "result": false,
-  "message": "El campo 'price' debe ser un número positivo.",
+  "success": false,
+  "status": {
+    "code": 422,
+    "message": "Unprocessable Entity",
+    "description": "Error de validación"
+  },
   "errors": {
-    "price": ["El valor proporcionado no es válido."]
+    "price": ["El campo 'price' debe ser un número positivo."]
   }
 }
+
 ```
 
 ---
@@ -364,11 +394,14 @@ HTTP/1.1 204 No Content
 ### 💥 **500 – Internal Server Error (Error del servidor)**
 ```json
 {
-  "result": false,
-  "message": "Error interno del servidor. Intente más tarde.",
-  "errors": {
-    "exception": "TypeError: Cannot read property 'id' of undefined",
-    "trace_id": "d7f5f9b3-8f4a-42b7-a1af-b1f3b7a87e91"
-  }
+  "success": false,
+  "status": {
+    "code": 500,
+    "message": "Internal Server Error",
+    "description": "Error del servidor si continua contactanos a este correo: email@example.com"
+  },
+  "message": "Ocurrió un error inesperado en el servidor. Intenta nuevamente más tarde."
 }
+
 ```
+
