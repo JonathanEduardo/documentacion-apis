@@ -8,16 +8,13 @@
   "success": true,
   "status": {
     "code": 200,
-    "message": "OK"
+    "message": "OK",
+    "description": "Operación exitosa."
   },
   "result": {
     "id": 1,
     "name": "John Doe",
     "email": "john@example.com"
-  },
-  "meta": {
-    "request_id": "req_12345",
-    "timestamp": "2025-10-27T18:00:00Z"
   }
 }
 ```
@@ -28,15 +25,12 @@
   "success": false,
   "status": {
     "code": 404,
-    "message": "Resource not found"
+    "message": "Resource not found",
+    "description": "El recurso no se encuentra en el servidor."
   },
   "error": {
     "type": "NotFoundError",
     "details": "User not found with ID 999"
-  },
-  "meta": {
-    "request_id": "req_67890",
-    "timestamp": "2025-10-27T18:10:00Z"
   }
 }
 ```
@@ -59,7 +53,7 @@ curl -X GET https://api.example.com/api/v1/user/profile   -H "Authorization: Bea
 ```json
 {
   "success": true,
-  "status": { "code": 200, "message": "Authenticated" },
+  "status": { "code": 200, "message": "Authenticated", "description": "Autenticación exitosa." },
   "result": {
     "user": { "id": 1, "name": "John Doe", "email": "john@example.com" },
     "token": {
@@ -67,8 +61,7 @@ curl -X GET https://api.example.com/api/v1/user/profile   -H "Authorization: Bea
       "token_type": "Bearer",
       "expires_in": 3600
     }
-  },
-  "meta": { "request_id": "req_101", "timestamp": "2025-10-27T18:15:00Z" }
+  }
 }
 ```
 
@@ -91,7 +84,7 @@ GET /api/v1/catalogue/shoes?page=2&limit=5&sort=-price
 ```json
 {
   "success": true,
-  "status": { "code": 200, "message": "OK" },
+  "status": { "code": 200, "message": "OK", "description": "Operación exitosa." },
   "result": {
     "items": [
       { "id": 1, "name": "Running Shoes", "price": 120.5 },
@@ -108,8 +101,7 @@ GET /api/v1/catalogue/shoes?page=2&limit=5&sort=-price
         "next": "/api/v1/catalogue/shoes?page=3"
       }
     }
-  },
-  "meta": { "request_id": "req_777", "timestamp": "2025-10-27T18:30:00Z" }
+  }
 }
 ```
 
@@ -136,6 +128,8 @@ Opciones válidas:
 | `X-API-Version` | Opcional | Versión actual de cliente o app |
 | `X-Request-ID` | Opcional | ID único de petición para trazabilidad |
 | `Accept-Language` | Opcional | Idioma preferido (`es`, `en`, `fr`) |
+| `Content-Type` | Sí | Tipo de contenido, ej. `application/json` |
+| `lang` | Opcional por defecto tomara es | Idioma preferido (`es`, `en`, `fr`) |   
 
 ---
 
@@ -258,9 +252,22 @@ Esto facilita el manejo de errores en el cliente y mejora la depuración.
     "message": "OK",
     "description": "Zapatos listados correctamente."
   },
-  "data": [
-    { "id": 1, "name": "Nike Air", "price": 120 },
-    { "id": 2, "name": "Adidas Run", "price": 95 }
+  "result": [
+    "items": [
+      { "id": 1, "name": "Running Shoes", "price": 120.5 },
+      { "id": 2, "name": "Tennis Classic", "price": 89.9 }
+    ],
+    "pagination": {
+      "total": 42,
+      "count": 2,
+      "per_page": 5,
+      "current_page": 2,
+      "total_pages": 9,
+      "links": {
+        "previous": "/api/v1/catalogue/shoes?page=1",
+        "next": "/api/v1/catalogue/shoes?page=3"
+      }
+    }
   ]
 }
 
@@ -277,7 +284,7 @@ Esto facilita el manejo de errores en el cliente y mejora la depuración.
     "message": "Created",
     "description": "Recurso creado exitosamente."
   },
-  "data": {
+  "result": {
     "id": 35,
     "name": "Puma Classic",
     "price": 89.99
