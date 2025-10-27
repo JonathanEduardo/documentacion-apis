@@ -141,7 +141,8 @@ Opciones válidas:
 | `X-Request-ID` | Opcional | ID único de petición para trazabilidad |
 | `Accept-Language` | Opcional | Idioma preferido (`es`, `en`, `fr`) |
 | `Content-Type` | Sí | Tipo de contenido, ej. `application/json` |
-| `lang` | Opcional por defecto tomara es | Idioma preferido (`es`, `en`, `fr`) |   
+| `Lang` | Opcional por defecto tomara es | Idioma preferido (`es`, `en`, `fr`) |   
+| `Timezone` | Opcional | Zona horaria preferida(`America/Caracas`) |   
 
 ---
 
