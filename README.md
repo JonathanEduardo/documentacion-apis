@@ -245,9 +245,11 @@ Esto facilita el manejo de errores en el cliente y mejora la depuración.
 | **422 Unprocessable Entity** | Error de validación | Cuando los datos son válidos en formato, pero no cumplen las reglas del negocio. | Campos inválidos |
 | **500 Internal Server Error** | Error del servidor | Cuando ocurre una excepción no controlada. | Falla en base de datos |
 
-### Ejemplo de respuesta con código y formato estándar
+## 🧾 Ejemplos de respuesta con código y formato estándar
 
-#### ✅ Éxito (200)
+---
+
+### ✅ **200 – OK (Éxito genérico)**
 ```json
 {
   "result": true,
@@ -259,7 +261,94 @@ Esto facilita el manejo de errores en el cliente y mejora la depuración.
 }
 ```
 
-#### ⚠️ Error (422)
+---
+
+### 🎉 **201 – Created (Recurso creado exitosamente)**
+```json
+{
+  "result": true,
+  "message": "Orden creada correctamente.",
+  "data": {
+    "order_id": 1023,
+    "total": 215.50,
+    "status": "pending"
+  }
+}
+```
+
+---
+
+### 🧹 **204 – No Content (Eliminación o actualización sin respuesta)**
+> No se devuelve cuerpo de respuesta.  
+> Solo se responde con el código de estado HTTP `204`:
+```
+HTTP/1.1 204 No Content
+```
+
+---
+
+### ⚠️ **400 – Bad Request (Error de formato o parámetros)**
+```json
+{
+  "result": false,
+  "message": "Parámetros inválidos en la solicitud.",
+  "errors": {
+    "limit": ["Debe ser un número entero positivo."],
+    "page": ["El valor no puede ser menor que 1."]
+  }
+}
+```
+
+---
+
+### 🔒 **401 – Unauthorized (No autenticado)**
+```json
+{
+  "result": false,
+  "message": "Token de autenticación inválido o expirado."
+}
+```
+
+---
+
+### 🚫 **403 – Forbidden (Sin permisos)**
+```json
+{
+  "result": false,
+  "message": "No tienes permisos para acceder a este recurso.",
+  "data": {
+    "required_role": "ADMIN",
+    "user_role": "USER"
+  }
+}
+```
+
+---
+
+### 🔍 **404 – Not Found (Recurso no encontrado)**
+```json
+{
+  "result": false,
+  "message": "El zapato con ID 999 no existe o fue eliminado."
+}
+```
+
+---
+
+### ⚔️ **409 – Conflict (Conflicto de estado o duplicado)**
+```json
+{
+  "result": false,
+  "message": "Ya existe un usuario registrado con este correo electrónico.",
+  "errors": {
+    "email": ["El correo 'test@example.com' ya está en uso."]
+  }
+}
+```
+
+---
+
+### 🚧 **422 – Unprocessable Entity (Error de validación)**
 ```json
 {
   "result": false,
@@ -270,11 +359,16 @@ Esto facilita el manejo de errores en el cliente y mejora la depuración.
 }
 ```
 
-#### 🚫 No autorizado (401)
+---
+
+### 💥 **500 – Internal Server Error (Error del servidor)**
 ```json
 {
   "result": false,
-  "message": "Token de autenticación inválido o expirado."
+  "message": "Error interno del servidor. Intente más tarde.",
+  "errors": {
+    "exception": "TypeError: Cannot read property 'id' of undefined",
+    "trace_id": "d7f5f9b3-8f4a-42b7-a1af-b1f3b7a87e91"
+  }
 }
 ```
-
