@@ -256,7 +256,7 @@ Esto facilita el manejo de errores en el cliente y mejora la depuración.
   "status": {
     "code": 200,
     "message": "OK",
-    "description": "Éxito genérico"
+    "description": "Zapatos listados correctamente."
   },
   "data": [
     { "id": 1, "name": "Nike Air", "price": 120 },
@@ -275,7 +275,7 @@ Esto facilita el manejo de errores en el cliente y mejora la depuración.
   "status": {
     "code": 201,
     "message": "Created",
-    "description": "Orden creada correctamente."
+    "description": "Recurso creado exitosamente."
   },
   "data": {
     "id": 35,
@@ -322,9 +322,8 @@ HTTP/1.1 204 No Content
   "status": {
     "code": 401,
     "message": "Unauthorized",
-    "description": "No autenticado"
-  },
-  "message": "Token de autenticación inválido o expirado."
+    "description": "No tienes permisos para acceder a este recurso."
+  }
 }
 
 ```
@@ -338,9 +337,8 @@ HTTP/1.1 204 No Content
   "status": {
     "code": 403,
     "message": "Forbidden",
-    "description": "No tiene permisos para acceder a este recurso."
-  },
-  "message": "No tienes permisos para acceder a este recurso."
+    "description": "No tienes permisos para acceder a este recurso."
+  }
 }
 
 ```
@@ -350,8 +348,12 @@ HTTP/1.1 204 No Content
 ### 🔍 **404 – Not Found (Recurso no encontrado)**
 ```json
 {
-  "result": false,
-  "message": "El zapato con ID 999 no existe o fue eliminado."
+  "success": false,
+  "status": {
+    "code": 404,
+    "message": "Not Found",
+    "description": "El recurso no se encuentra en el servidor."
+  }
 }
 ```
 
@@ -365,8 +367,7 @@ HTTP/1.1 204 No Content
     "code": 409,
     "message": "Conflict",
     "description": "El recurso ya existe o hay un conflicto con los datos enviados."
-  },
-  "message": "El recurso ya existe o hay un conflicto con los datos enviados."
+  }
 }
 
 ```
@@ -398,10 +399,10 @@ HTTP/1.1 204 No Content
   "status": {
     "code": 500,
     "message": "Internal Server Error",
-    "description": "Error del servidor si continua contactanos a este correo: email@example.com"
-  },
-  "message": "Ocurrió un error inesperado en el servidor. Intenta nuevamente más tarde."
+    "description": "Ocurrió un error inesperado en el servidor. Intenta nuevamente más tarde. Si continua contactanos a este correo: email@example.com"
+  }
 }
 
 ```
+
 
