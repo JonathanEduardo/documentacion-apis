@@ -1,0 +1,61 @@
+# 📘 Documentación Técnica  
+## Estándares de Arquitectura, Nomenclatura y Desarrollo  
+**Backend – FastAPI**
+
+---
+
+## 1. Objetivo
+
+Este documento define los **estándares técnicos obligatorios** para el desarrollo del backend en **FastAPI**, manteniendo coherencia con sistemas existentes en **Laravel** y garantizando:
+
+- Mantenibilidad
+- Escalabilidad
+- Claridad arquitectónica
+- Facilidad de onboarding
+- Compatibilidad entre tecnologías
+
+---
+
+## 2. Principios de Arquitectura
+
+1. El estándar pertenece al **sistema**, no al framework
+2. La **base de datos es la fuente de verdad**
+3. FastAPI no impone convenciones → el equipo sí
+4. Separación estricta de responsabilidades
+5. Nombres claros y predecibles > creatividad
+
+---
+
+## 3. Estructura del Proyecto
+
+```bash
+app/
+├── core/
+│   ├── config.py
+│   ├── constants.py
+│   ├── database.py
+│   └── security.py
+│
+├── models/
+│   ├── user.py
+│   ├── company.py
+│   └── user_company.py
+│
+├── schemas/
+│   ├── user_schema.py
+│   └── company_schema.py
+│
+├── repositories/
+│   └── user_repository.py
+│
+├── services/
+│   └── user_service.py
+│
+├── api/
+│   └── v1/
+│       └── user_controller.py
+│
+├── utils/
+│   └── date_utils.py
+│
+└── main.py
