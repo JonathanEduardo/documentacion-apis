@@ -61,132 +61,135 @@ app/
 │   └── date_utils.py
 │
 └── main.py
+```
 
-### 4. Convenciones de Base de Datos
-4.1 Tablas
-Plural
+## 4. Convenciones de Base de Datos
+### 4.1 Tablas
+- Plural
+- snake_case
+- Sin prefijos
 
-snake_case
-
-Sin prefijos
-
-sql
-Copiar código
+```bash
 users
 companies
 orders
 user_company
-4.2 Columnas
-snake_case
+```
 
-Semánticas
+### 4.2 Columnas
+- snake_case
+- Semánticas
+- Sin abreviaciones
 
-Sin abreviaciones
-
-sql
-Copiar código
+```bash
 user_name
 email
 created_at
 updated_at
-4.3 Primary Keys
+```
+
+### 4.3 Primary Keys
 Nombre fijo: id
 
-sql
-Copiar código
+```bash
 id INTEGER PRIMARY KEY
-4.4 Foreign Keys
-Formato obligatorio:
+```
 
-php-template
-Copiar código
-<tabla_singular>_id
+### 4.4 Foreign Keys
+Formato obligatorio: <tabla_singular>_id
+
+
 Ejemplos:
 
 sql
-Copiar código
+
+```bash
 user_id
 company_id
 order_id
+```
+
 ❌ Prohibido:
+- id_user
+- user_pk
+- fk_user
 
-id_user
+### 4.5 Tablas Pivote (Many-to-Many)
+Formato: singular_singular
 
-user_pk
-
-fk_user
-
-4.5 Tablas Pivote (Many-to-Many)
-Formato:
-
-nginx
-Copiar código
-singular_singular
 Ejemplo:
 
-sql
-Copiar código
+```bash
 user_company
-Campos mínimos:
+```
 
-sql
-Copiar código
+
+Campos mínimos:
+```bash
 user_id
 company_id
 created_at
+```
+
+
 Campos adicionales permitidos:
 
-sql
-Copiar código
+```bash
 role
 is_active
+```
+
+
 ❌ Nunca usar pivot en el nombre de la tabla
 
-### 5. Convenciones de Código
-5.1 Variables
+## 5. Convenciones de Código
+### 5.1 Variables
 camelCase
 
-js
-Copiar código
+```bash
 const userName = "Jhon";
-5.2 Constantes
-UPPER_SNAKE_CASE
+```
 
-Centralizadas
+### 5.2 Constantes
+- UPPER_SNAKE_CASE
+- Centralizadas
 
-python
-Copiar código
+```bash
 MAX_LOGIN_ATTEMPTS = 5
 DEFAULT_TIMEZONE = "UTC"
 JWT_EXPIRATION_MINUTES = 60
+```
+
+
 Ubicación:
 
-bash
-Copiar código
+```bash
 app/core/constants.py
+```
+
 5.3 Clases
-PascalCase
+- PascalCase
+- Singular
 
-Singular
-
-python
-Copiar código
+```bash
 class UserService:
     pass
+```
+
+    
 5.4 Funciones y Métodos
-snake_case
+- snake_case
+- Verbos descriptivos
 
-Verbos descriptivos
-
-python
-Copiar código
+```bash
 def get_user_by_id(user_id: int):
     pass
-### 6. Modelos (SQLAlchemy)
-Ejemplo: User
+```
 
-python
-Copiar código
+### 6. Modelos (SQLAlchemy)
+- Ejemplo: User
+
+```bash
 class User(Base):
     __tablename__ = "users"
 
@@ -195,9 +198,12 @@ class User(Base):
     email = Column(String, unique=True)
     created_at = Column(DateTime)
     updated_at = Column(DateTime)
+```
+
 6.1 Relaciones Many-to-Many
-python
-Copiar código
+- python
+- 
+```bash
 class UserCompany(Base):
     __tablename__ = "user_company"
 
@@ -205,16 +211,15 @@ class UserCompany(Base):
     company_id = Column(Integer, ForeignKey("companies.id"), primary_key=True)
     role = Column(String)
     created_at = Column(DateTime)
+```
+
 ## 7. Schemas (Pydantic)
 ### 7.1 Regla General
-Base de datos → snake_case
+- Base de datos → snake_case
+- API / Frontend → camelCase
+- Uso obligatorio de alias
 
-API / Frontend → camelCase
-
-Uso obligatorio de alias
-
-python
-Copiar código
+```bash
 class UserSchema(BaseModel):
     userName: str = Field(alias="user_name")
     email: str
@@ -222,30 +227,28 @@ class UserSchema(BaseModel):
     class Config:
         populate_by_name = True
         from_attributes = True
+```
+
 ## 8. Repositories
 ### 8.1 Responsabilidad
-Acceso a base de datos
+- Acceso a base de datos
+- Sin lógica de negocio
+- Sin validaciones
 
-Sin lógica de negocio
-
-Sin validaciones
-
-python
-Copiar código
+```bash
 class UserRepository:
 
     def get_by_id(self, db, user_id: int):
         return db.query(User).filter(User.id == user_id).first()
+```
+
 ## 9. Services
 ### 9.1 Responsabilidad
-Reglas de negocio
+- Reglas de negocio
+- Validaciones
+- Orquestación
 
-Validaciones
-
-Orquestación
-
-python
-Copiar código
+```bash
 class UserService:
 
     def get_user(self, db, user_id: int):
@@ -253,68 +256,63 @@ class UserService:
         if not user:
             raise DomainError("User not found")
         return user
+```
+
 ## 10. Controladores (API)
 ### 10.1 Responsabilidad
-Manejo HTTP
+- Manejo HTTP
+- Seguridad
+- Request / Response
 
-Seguridad
-
-Request / Response
-
-python
-Copiar código
+```bash
 @router.get("/users/{user_id}", response_model=UserSchema)
 def get_user(user_id: int, db=Depends(get_db)):
     return UserService().get_user(db, user_id)
+```
+
 ### 11. Utilidades
-Funciones puras
+- Funciones puras
+- Reutilizables
+- Sin lógica de negocio
 
-Reutilizables
-
-Sin lógica de negocio
-
-python
-Copiar código
+```bash
 def format_date_to_utc(date):
     return date.astimezone(timezone.utc)
+```
+
 ## 12. Manejo de Errores
 ### 12.1 Errores de Dominio
-python
-Copiar código
+```bash
 class DomainError(Exception):
     pass
+```
+
 ### 12.2 Errores HTTP
-python
-Copiar código
+```bash
 raise HTTPException(status_code=404, detail="User not found")
+```
+
 ## 13. Seguridad
-JWT obligatorio
-
-Tokens con expiración
-
-Password hashing con bcrypt
-
-Secrets solo en .env
+- JWT obligatorio
+- Tokens con expiración
+- Password hashing con bcrypt
+- Secrets solo en .env
 
 ❌ Prohibido hardcodear credenciales
 
 ## 14. Versionado de API
-Versionado por URL
+- Versionado por URL
+- No romper versiones existentes
 
-No romper versiones existentes
-
-bash
-Copiar código
+```bash
 /api/v1/users
 /api/v2/users
+```
 
 ## 15. Regla Final
 Todo código que no cumpla este documento no se integra al repositorio.
 
-markdown
-Copiar código
 
----
 
 
 
