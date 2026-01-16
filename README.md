@@ -1,3 +1,51 @@
+# 📘 Estándar de Desarrollo Backend y Base de Datos  
+## Buenas Prácticas de Código y Arquitectura (ES)
+
+---
+
+## 🎯 1. Objetivo
+
+Definir un **estándar técnico obligatorio** para el desarrollo de backend y base de datos, garantizando:
+
+- Código limpio y mantenible
+- Consistencia entre proyectos
+- Escalabilidad
+- Facilidad de lectura y auditoría
+- Independencia del framework
+
+Este documento aplica a:
+- Backend (FastAPI, Laravel, Node.js)
+- Bases de datos relacionales (PostgreSQL, MySQL)
+
+---
+
+## 🧠 2. Principios Generales
+
+1. El estándar pertenece al **sistema**, no al framework.
+2. La base de datos es la **fuente de verdad**.
+3. Las convenciones **no son opcionales**.
+4. La claridad es prioritaria frente a la optimización prematura.
+5. Un desarrollador nuevo debe entender el sistema sin explicaciones verbales.
+
+---
+
+## 🗂️ 3. Organización del Proyecto Backend
+
+### 3.1 Estructura recomendada
+
+```bash
+app/
+├── api/              # Controladores / Rutas
+├── core/             # Configuración, constantes, seguridad
+├── models/           # Modelos ORM
+├── schemas/          # DTO / Schemas de entrada y salida
+├── repositories/     # Acceso a datos
+├── services/         # Lógica de negocio
+├── utils/            # Utilidades generales
+└── main.py           # Punto de entrada
+
+
+
 # 📘 Estándar de API REST - Documentación Técnica (ES)
 
 ## 🧱 1. Estructura general de respuesta
